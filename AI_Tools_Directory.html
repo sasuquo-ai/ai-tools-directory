@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Tools for Teachers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:    #1a2744;
+    --navy2:   #253560;
+    --teal:    #2a9d8f;
+    --teal2:   #1f7a6e;
+    --gold:    #e9c46a;
+    --coral:   #e76f51;
+    --cream:   #faf8f4;
+    --gray50:  #f4f2ee;
+    --gray100: #e8e5df;
+    --gray300: #b8b3a8;
+    --gray500: #6b6560;
+    --gray700: #3d3a35;
+    --white:   #ffffff;
+
+    --tag-teacher-bg: #dbeafe;
+    --tag-teacher:    #1e40af;
+    --tag-student-bg: #d1fae5;
+    --tag-student:    #065f46;
+    --tag-both-bg:    #fef3c7;
+    --tag-both:       #92400e;
+    --tag-licensed-bg:#fee2e2;
+    --tag-licensed:   #991b1b;
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.10), 0 2px 4px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--gray700);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--navy);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 50%, rgba(42,157,143,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 10% 80%, rgba(233,196,106,0.10) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 52px 32px 44px;
+    position: relative;
+  }
+  .header-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+  .header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    color: var(--white);
+    line-height: 1.12;
+    margin-bottom: 14px;
+  }
+  .header-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .header-subtitle {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    max-width: 560px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .header-stats {
+    display: flex;
+    gap: 28px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.45);
+    margin-top: 3px;
+  }
+
+  /* ── CONTROLS ── */
+  .controls-bar {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray100);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+  }
+  .controls-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 14px 32px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+  }
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray300);
+    pointer-events: none;
+  }
+  .search-input {
+    width: 100%;
+    padding: 10px 14px 10px 40px;
+    border: 1.5px solid var(--gray100);
+    border-radius: var(--radius-md);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--gray700);
+    background: var(--gray50);
+    outline: none;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--teal);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(42,157,143,0.12);
+  }
+  .search-input::placeholder { color: var(--gray300); }
+
+  .filter-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray300);
+    white-space: nowrap;
+  }
+  .filter-btn {
+    padding: 7px 14px;
+    border: 1.5px solid var(--gray100);
+    border-radius: 99px;
+    background: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gray500);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--gray300); color: var(--gray700); }
+  .filter-btn.active {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: var(--white);
+  }
+  .filter-btn.licensed.active {
+    background: #991b1b;
+    border-color: #991b1b;
+    color: var(--white);
+  }
+  .clear-btn {
+    padding: 7px 14px;
+    border: 1.5px solid transparent;
+    border-radius: 99px;
+    background: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--coral);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    display: none;
+  }
+  .clear-btn.visible { display: block; }
+  .clear-btn:hover { background: #fff0ec; }
+
+  /* ── MAIN ── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 32px 64px;
+  }
+
+  .results-meta {
+    font-size: 13px;
+    color: var(--gray300);
+    margin-bottom: 20px;
+    height: 20px;
+  }
+  .results-meta strong { color: var(--gray500); }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 36px 0 16px;
+  }
+  .section-header:first-child { margin-top: 0; }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--gray100);
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray300);
+    white-space: nowrap;
+  }
+
+  /* ── TOOL GRID ── */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  /* ── TOOL CARD ── */
+  .tool-card {
+    background: var(--white);
+    border: 1px solid var(--gray100);
+    border-radius: var(--radius-lg);
+    padding: 20px 22px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+  .tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--teal);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .tool-card.licensed::before { background: var(--coral); opacity: 1; }
+  .tool-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    border-color: var(--gray100);
+  }
+  .tool-card:hover::before { opacity: 1; }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .tool-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+  .tool-name a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .tool-name a:hover { color: var(--teal); }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    border-radius: 99px;
+    white-space: nowrap;
+  }
+  .badge-teacher  { background: var(--tag-teacher-bg);  color: var(--tag-teacher); }
+  .badge-student  { background: var(--tag-student-bg);  color: var(--tag-student); }
+  .badge-both     { background: var(--tag-both-bg);     color: var(--tag-both); }
+  .badge-licensed { background: var(--tag-licensed-bg); color: var(--tag-licensed); font-size: 9px; }
+
+  .tool-desc {
+    font-size: 13px;
+    color: var(--gray500);
+    line-height: 1.6;
+  }
+
+  .tool-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 8px;
+    border-top: 1px solid var(--gray50);
+    gap: 8px;
+  }
+  .tool-cost {
+    font-size: 11px;
+    color: var(--gray300);
+    font-weight: 500;
+  }
+  .tool-link {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--teal);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    transition: color 0.15s;
+  }
+  .tool-link:hover { color: var(--teal2); }
+
+  .tool-notes {
+    font-size: 11.5px;
+    color: var(--gray300);
+    background: var(--gray50);
+    border-radius: var(--radius-sm);
+    padding: 7px 10px;
+    line-height: 1.5;
+    display: none;
+  }
+  .tool-card.expanded .tool-notes { display: block; }
+
+  .expand-btn {
+    background: none;
+    border: none;
+    font-size: 11px;
+    color: var(--gray300);
+    cursor: pointer;
+    padding: 0;
+    font-family: 'DM Sans', sans-serif;
+    transition: color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: -4px;
+  }
+  .expand-btn:hover { color: var(--gray500); }
+
+  /* keywords hidden but searchable */
+  .kw-hidden { display: none; }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    display: none;
+  }
+  .empty-state.visible { display: block; }
+  .empty-emoji { font-size: 48px; margin-bottom: 16px; }
+  .empty-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .empty-sub { font-size: 14px; color: var(--gray300); }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    border-top: 1px solid var(--gray100);
+    padding: 24px 32px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--gray300);
+  }
+
+  /* ── HIGHLIGHT ── */
+  mark {
+    background: rgba(233,196,106,0.35);
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+
+  @media (max-width: 600px) {
+    .header-inner { padding: 36px 20px 32px; }
+    .controls-inner { padding: 12px 16px; }
+    .main { padding: 24px 16px 48px; }
+    .tools-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <p class="header-eyebrow">Grades 9–12 · Curated for High School</p>
+    <h1 class="header-title">AI Tools for <em>Teachers</em></h1>
+    <p class="header-subtitle">Search by what you want to do, what subject you teach, or browse by category. Every tool here has been vetted for high school use.</p>
+    <div class="header-stats">
+      <div class="stat"><span class="stat-num" id="stat-total">25</span><span class="stat-label">Tools listed</span></div>
+      <div class="stat"><span class="stat-num">5</span><span class="stat-label">School licenses</span></div>
+      <div class="stat"><span class="stat-num">3</span><span class="stat-label">Categories</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="controls-bar">
+  <div class="controls-inner">
+    <div class="search-wrap">
+      <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="search-input" id="searchInput" type="search" placeholder="Search by task, subject, or tool name…" autocomplete="off" spellcheck="false">
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Who uses it</span>
+      <button class="filter-btn active" data-filter="facing" data-value="all">All</button>
+      <button class="filter-btn" data-filter="facing" data-value="Teacher">Teacher</button>
+      <button class="filter-btn" data-filter="facing" data-value="Student">Student</button>
+      <button class="filter-btn" data-filter="facing" data-value="Both">Both</button>
+    </div>
+
+    <div class="filter-group">
+      <button class="filter-btn licensed" data-filter="licensed" data-value="licensed">⭐ Licensed</button>
+    </div>
+
+    <button class="clear-btn" id="clearBtn">Clear all</button>
+  </div>
+</div>
+
+<main class="main">
+  <p class="results-meta" id="resultsMeta"></p>
+  <div id="toolsContainer"></div>
+  <div class="empty-state" id="emptyState">
+    <div class="empty-emoji">🔍</div>
+    <p class="empty-title">No tools match that search</p>
+    <p class="empty-sub">Try different keywords — e.g. "quiz", "presentation", "science", "video"</p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  Updated June 2026 · For questions or additions, contact your Instructional Technology Coordinator
+</footer>
+
+<script>
+const TOOLS = [{"name":"Brisk Teaching","url":"https://www.briskteaching.com","facing":"Teacher","desc":"Chrome extension with 40+ AI tools built directly into Google Docs, Slides, and YouTube. Quickly create quizzes, rubrics, lesson plans, and give feedback on student writing.","taskKeywords":"create quiz; create rubric; lesson plan; feedback on writing; differentiate text; create slides; generate discussion questions; exit ticket; unit plan; recommendation letter","subjectKeywords":"all subjects; ELA; science; social studies; math; world language","licensed":"YES ✓","cost":"Licensed","notes":"Includes Brisk Boost. Works inside Google Workspace."},{"name":"MagicSchool AI","url":"https://www.magicschool.ai","facing":"Both","desc":"The most comprehensive AI platform for educators — 80+ tools for lesson planning, assessments, rubrics, differentiation, and student-facing AI tutoring. Used in nearly every US school district.","taskKeywords":"lesson plan; unit plan; create quiz; create rubric; differentiate text; feedback on writing; discussion questions; bell ringer; extension activity; real-world connection; email to parents; recommendation letter; multiple choice; exit ticket; project prompt; standards alignment","subjectKeywords":"all subjects; ELA; math; science; social studies; world language; AP courses","licensed":"No","cost":"Free / Paid tiers","notes":"Also has MagicStudent for student-facing AI use with guardrails."},{"name":"NotebookLM","url":"https://notebooklm.google.com","facing":"Both","desc":"Google's AI research tool. Upload your own documents, articles, or slides — it stays grounded in those sources only. Creates audio overviews (podcast-style), study guides, flashcards, quizzes, and mind maps. No hallucination beyond your sources.","taskKeywords":"summarize documents; create study guide; generate quiz from text; audio overview; podcast from notes; mind map; flashcards; research support; analyze articles; discussion questions from text","subjectKeywords":"all subjects; ELA; science; social studies; history; AP courses; world language","licensed":"No","cost":"Free (Google account)","notes":"Now available to students 13+. Integrates with Google Classroom, Canvas, Schoology."},{"name":"Gamma","url":"https://gamma.app","facing":"Both","desc":"AI that builds complete, beautifully designed presentations, documents, and web pages from a simple text prompt. Handles layout, content, and images automatically.","taskKeywords":"create presentation; create slides; create lesson overview; create handout; create webpage; student project; visual storytelling; create infographic; create newsletter","subjectKeywords":"all subjects; ELA; science; social studies; history; art; world language","licensed":"No","cost":"Free (400 credits/mo) / Paid","notes":"Students can also use for projects. Export to PowerPoint or PDF."},{"name":"Diffit","url":"https://web.diffit.me","facing":"Teacher","desc":"Takes any text, article, URL, YouTube video, or topic and instantly generates a leveled reading passage with vocabulary, comprehension questions, discussion prompts, and graphic organizers. Ideal for differentiating texts.","taskKeywords":"differentiate text; adjust reading level; create reading passage; vocabulary list; comprehension questions; graphic organizer; discussion questions; adapt article; leveled text; create worksheet","subjectKeywords":"ELA; science; social studies; history; world language; all subjects","licensed":"No","cost":"Free / ~$15/mo premium","notes":"Excellent for taking a complex article and making it accessible. Supports Google Classroom export."},{"name":"FLINT","url":"https://flintk12.com","facing":"Teacher","desc":"AI lesson planning and content creation tool built specifically for K-12. Generates lesson plans, assessments, slide decks, and instructional materials with guardrails for age-appropriate content.","taskKeywords":"lesson plan; create assessment; create slides; unit plan; generate worksheet; discussion questions; learning objectives; standards alignment; project prompt","subjectKeywords":"all subjects; ELA; math; science; social studies","licensed":"YES ✓","cost":"Licensed","notes":"Licensed by school. Good for quick lesson planning and material generation."},{"name":"Albert.io","url":"https://albert.io","facing":"Both","desc":"Standards-aligned practice platform with thousands of questions across subjects. Strong in AP, SAT/ACT, and college-prep courses. AI helps generate explanations and feedback.","taskKeywords":"practice problems; formative assessment; AP prep; test prep; SAT prep; standards-aligned questions; skills practice; quiz; review","subjectKeywords":"math; science; ELA; AP courses; social studies; SAT/ACT prep; history","licensed":"YES ✓","cost":"Licensed","notes":"Particularly strong for AP courses and college-prep. Students self-pace through question sets."},{"name":"Formative","url":"https://www.formative.com","facing":"Both","desc":"Real-time formative assessment platform. Teachers create assignments students complete live — teacher sees responses as they happen. Supports drawing, written response, multiple choice, and more.","taskKeywords":"formative assessment; real-time feedback; check for understanding; exit ticket; live quiz; student response; multiple choice; short answer; drawing response; progress monitoring","subjectKeywords":"all subjects; math; science; ELA; social studies","licensed":"YES ✓","cost":"Licensed","notes":"Strong for live, in-class checks for understanding. Teacher sees responses in real time."},{"name":"Wayground","url":"https://wayground.com","facing":"Both","desc":"Formerly Quizizz — a gamified quiz and practice platform with AI tools to generate, differentiate, and adapt questions. Supports interactive videos with embedded questions, flashcards, and lesson slides.","taskKeywords":"gamified quiz; practice questions; review game; interactive video; video with questions; flashcards; formative assessment; differentiation; lesson slides; standards-aligned practice; engagement activity","subjectKeywords":"all subjects; math; science; ELA; social studies; world language","licensed":"YES ✓","cost":"Licensed","notes":"Renamed from Quizizz. Interactive video feature lets you embed questions in any YouTube video."},{"name":"Canva for Education","url":"https://www.canva.com/en_in/education/","facing":"Both","desc":"Design platform with AI image generation, presentation creation, video editing, and 1000s of templates. Free for teachers and students with an edu email. Magic Write generates text; Magic Design creates layouts from a prompt.","taskKeywords":"create presentation; poster design; infographic; video editing; create visual; graphic design; student project; create social media post; create flyer; image generation; create slideshow","subjectKeywords":"all subjects; art; ELA; science; social studies; world language","licensed":"No","cost":"Free for edu (.edu email)","notes":"Students can create beautiful projects. Teachers can set up a class and assign templates."},{"name":"Curipod","url":"https://curipod.com","facing":"Both","desc":"AI generates interactive lessons with polls, word clouds, drawings, Q&A, and reflection slides built in. Students respond in real time on their devices. Great for engagement and quick formative checks.","taskKeywords":"interactive lesson; student engagement; polls; word cloud; reflection activity; student discourse; discussion; create lesson; formative check; real-world connection; student response","subjectKeywords":"all subjects; ELA; science; social studies; history; world language","licensed":"No","cost":"Free / Paid","notes":"Similar to Pear Deck / Nearpod but AI-generated. Students respond live on devices."},{"name":"Khanmigo (Khan Academy)","url":"https://www.khanacademy.org/khan-labs","facing":"Both","desc":"Khan Academy's AI tutor and teacher assistant. For students: Socratic tutoring in math, science, and humanities. For teachers: lesson planning, quiz creation, and discussion prompts.","taskKeywords":"AI tutor; Socratic questioning; math tutoring; writing feedback; lesson plan; discussion questions; create quiz; student support; real-world connection","subjectKeywords":"math; science; ELA; history; AP courses; SAT prep; computer science","licensed":"No","cost":"Free (teacher) / $4/mo student","notes":"Strong for math tutoring with step-by-step Socratic guidance. Free for teachers."},{"name":"Eduaide.Ai","url":"https://www.eduaide.ai","facing":"Teacher","desc":"200+ teacher tools in one place: lesson plans, assessments, rubrics, parent emails, IEP accommodations, differentiation, and more. One of the most feature-rich AI platforms for educators.","taskKeywords":"lesson plan; create assessment; rubric; email to parents; differentiation; unit plan; discussion questions; bell ringer; create worksheet; extension activity; reflection questions; student feedback","subjectKeywords":"all subjects; ELA; math; science; social studies; world language","licensed":"No","cost":"Free / Paid","notes":"Extremely broad set of tools. Good alternative or complement to MagicSchool."},{"name":"Snorkl","url":"https://snorkl.app","facing":"Student","desc":"Students record their thinking aloud on a digital whiteboard — voice, drawing, and writing combined. AI gives immediate personalized feedback on their explanation, not just the answer. Great replacement for Flip/Flipgrid.","taskKeywords":"student explanation; whiteboard activity; verbal response; show your thinking; formative assessment; math reasoning; science explanation; student reflection; video response; peer-style feedback; process over product","subjectKeywords":"math; science; ELA; world language; social studies; all subjects","licensed":"No","cost":"Free (20 activities) / School plan","notes":"Successor to Flip/Flipgrid. Focuses on process and reasoning, not just answers. COPPA/FERPA compliant."},{"name":"Quizlet","url":"https://quizlet.com","facing":"Both","desc":"Flashcard and study tool platform with AI that generates study sets from any content. Students study with flashcards, Learn mode, matching games, and practice tests. Teachers can create and share sets.","taskKeywords":"flashcards; vocabulary study; study guide; review game; practice test; matching activity; memorization; self-paced study; spaced repetition","subjectKeywords":"all subjects; world language; science; math; history; ELA; AP courses","licensed":"No","cost":"Free / Paid tiers","notes":"Students can also self-create study sets. Strong for vocabulary and concept review."},{"name":"Padlet","url":"https://padlet.com","facing":"Both","desc":"Digital bulletin board for collaboration. Students post text, images, videos, and links. Teachers set up boards for brainstorming, discussion, gallery walks, and knowledge-sharing activities.","taskKeywords":"collaborative activity; student discourse; brainstorming; gallery walk; discussion board; student sharing; reflection; student-to-student; peer feedback; class discussion","subjectKeywords":"all subjects; ELA; science; social studies; art; world language","licensed":"No","cost":"Free (3 boards) / Paid","notes":"Simple and visual. Works great for student-to-student discussion and gallery walk activities."},{"name":"Flip (Microsoft)","url":"https://flip.com","facing":"Student","desc":"Video response platform where students record short video responses to teacher prompts. Great for speaking practice, reflections, and student discourse without live pressure.","taskKeywords":"video response; student speaking; reflection; discussion; peer feedback; student discourse; oral presentation practice; language practice; show and tell","subjectKeywords":"ELA; world language; social studies; science; all subjects","licensed":"No","cost":"Free","notes":"Formerly Flipgrid. Students can respond to each other's videos. Good for async student discourse."},{"name":"Gimkit","url":"https://www.gimkit.com","facing":"Student","desc":"Highly engaging gamified review platform. Students play live game modes to practice questions. More game-like and motivating than traditional quiz formats.","taskKeywords":"review game; gamified assessment; engagement activity; vocabulary review; formative assessment; test prep; live game; student engagement","subjectKeywords":"all subjects; math; science; ELA; social studies; world language","licensed":"No","cost":"Free / Paid","notes":"Students are extremely engaged. Works well for review before tests."},{"name":"Blooket","url":"https://www.blooket.com","facing":"Student","desc":"Game-based learning platform where students answer questions while playing different game modes. Teachers create or import question sets.","taskKeywords":"review game; gamified quiz; engagement activity; formative assessment; vocabulary practice; student engagement; live game","subjectKeywords":"all subjects; math; science; ELA; social studies; world language","licensed":"No","cost":"Free / Paid","notes":"Similar to Gimkit. Different game modes keep students engaged with the same question sets."},{"name":"Pear Deck","url":"https://www.peardeck.com","facing":"Student","desc":"Interactive presentation tool where students respond to questions embedded in slides in real time. AI can generate questions and teachers see all student responses live.","taskKeywords":"interactive lesson; formative check; student response; real-time assessment; discussion; student engagement; check for understanding; exit ticket","subjectKeywords":"all subjects; math; science; ELA; social studies","licensed":"No","cost":"Free / Paid","notes":"Integrates directly with Google Slides and PowerPoint. Students respond on their devices."},{"name":"Socrative","url":"https://www.socrative.com","facing":"Both","desc":"Quick assessment tool for real-time quizzes, exit tickets, and polls. Simple interface for both teachers and students. Space Race game mode adds engagement.","taskKeywords":"formative assessment; quiz; exit ticket; poll; quick check; multiple choice; short answer; review game; student response","subjectKeywords":"all subjects; math; science; ELA; social studies","licensed":"No","cost":"Free / Paid","notes":"Very simple and fast to set up. Good for quick daily checks."},{"name":"Adobe Firefly","url":"https://firefly.adobe.com","facing":"Both","desc":"Adobe's AI image and visual generator, built into Photoshop, Illustrator, and Adobe Express. Trained on licensed Adobe Stock content — avoids the copyright concerns of other AI image tools. Ideal for generating reference images, iterating on compositions, and exploring visual style.","taskKeywords":"generate image; AI image; create visual; visual reference; iterate on composition; explore art style; image generation; concept art; design; photo editing; creative project","subjectKeywords":"visual arts; art; design; photography; all subjects","licensed":"No","cost":"Free (Adobe Express) / Paid (CC)","notes":"Copyright-safer than Midjourney or DALL-E — trained on licensed content. Adobe Express is free."},{"name":"Suno","url":"https://suno.com","facing":"Both","desc":"AI that turns text prompts into complete, original songs — full vocals, melody, and instrumentation in seconds. Students can set poems to music, create songs that explain concepts, or compose pieces in a chosen genre and style.","taskKeywords":"create song; music composition; text to music; set poem to music; song from lyrics; music generation; audio creation; creative project; mnemonic; concept song","subjectKeywords":"music; ELA; world language; history; science; all subjects","licensed":"No","cost":"Free (10 songs/day)","notes":"⚠️ Users must be 13+; under-18s need parental consent. Free plan songs cannot be used commercially."},{"name":"Soundtrap for Education","url":"https://schools.soundtrap.com","facing":"Both","desc":"Browser-based music production studio (DAW) built for schools. Students compose, record, and collaborate on music and podcasts with AI features including beat generation, smart chord suggestions, and auto-tune assist.","taskKeywords":"music composition; record audio; create podcast; music production; beat creation; collaborative music; songwriting; audio project; DAW; music theory","subjectKeywords":"music; ELA; world language","licensed":"No","cost":"Free trial / School plan","notes":"By Spotify. Integrates with Google Classroom, Canvas, Schoology. Better for actual music production vs. Suno's one-click generation."},{"name":"GitHub Copilot (Education)","url":"https://github.com/education","facing":"Both","desc":"AI coding assistant built directly into code editors. Suggests code completions, explains code, generates functions from comments, and helps debug. Free for students and teachers with a verified school email.","taskKeywords":"coding assistant; code completion; debug code; explain code; generate code; programming help; computer science; software development; code review","subjectKeywords":"computer science; coding; programming","licensed":"No","cost":"Free with .edu email","notes":"Industry-standard tool students will encounter professionally. Works inside VS Code. Requires GitHub Education verification."},{"name":"Replit","url":"https://replit.com","facing":"Both","desc":"Browser-based coding environment with built-in AI that explains, writes, and debugs code. No software installation needed — students code in the browser. Supports 50+ programming languages.","taskKeywords":"browser coding; coding environment; code with AI; programming; debug code; explain code; computer science; no-install coding; collaborative coding; student projects","subjectKeywords":"computer science; coding; programming","licensed":"No","cost":"Free / Education plan","notes":"No installation needed — runs entirely in the browser. AI explains errors in plain language."}];
+
+const SECTIONS = {
+  teacher: { label: "Teacher-Facing Tools", tools: ["Brisk Teaching","MagicSchool AI","NotebookLM","Gamma","Diffit","FLINT","Albert.io","Formative","Wayground","Canva for Education","Curipod","Khanmigo (Khan Academy)","Eduaide.Ai"] },
+  student:  { label: "Student-Facing Tools", tools: ["Snorkl","Quizlet","Padlet","Flip (Microsoft)","Gimkit","Blooket","Pear Deck","Socrative"] },
+  subject:  { label: "Subject-Specific — Visual Arts, Music & CS", tools: ["Adobe Firefly","Suno","Soundtrap for Education","GitHub Copilot (Education)","Replit"] }
+};
+
+// Also expose "Both" tools in student section when filtering
+const BOTH_TOOLS = TOOLS.filter(t => t.facing === "Both").map(t => t.name);
+
+let activeFilters = { facing: "all", licensed: false };
+let searchTerm = "";
+
+function highlight(text, term) {
+  if (!term) return text;
+  const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+}
+
+function toolMatchesSearch(tool, term) {
+  if (!term) return true;
+  const haystack = [tool.name, tool.desc, tool.taskKeywords, tool.subjectKeywords, tool.notes].join(' ').toLowerCase();
+  return haystack.includes(term.toLowerCase());
+}
+
+function toolMatchesFacing(tool, filter) {
+  if (filter === "all") return true;
+  if (filter === "Teacher") return tool.facing === "Teacher" || tool.facing === "Both";
+  if (filter === "Student") return tool.facing === "Student" || tool.facing === "Both";
+  if (filter === "Both") return tool.facing === "Both";
+  return true;
+}
+
+function renderCard(tool, term) {
+  const isLicensed = tool.licensed && tool.licensed.includes("YES");
+  const facingClass = tool.facing === "Teacher" ? "badge-teacher" : tool.facing === "Student" ? "badge-student" : "badge-both";
+  const facingLabel = tool.facing;
+
+  const name = highlight(tool.name, term);
+  const desc = highlight(tool.desc, term);
+
+  const card = document.createElement('div');
+  card.className = `tool-card${isLicensed ? ' licensed' : ''}`;
+  card.dataset.name = tool.name;
+
+  card.innerHTML = `
+    <div class="card-top">
+      <div class="tool-name"><a href="${tool.url}" target="_blank" rel="noopener">${name}</a></div>
+      <div class="badges">
+        <span class="badge ${facingClass}">${facingLabel}</span>
+        ${isLicensed ? '<span class="badge badge-licensed">⭐ Licensed</span>' : ''}
+      </div>
+    </div>
+    <p class="tool-desc">${desc}</p>
+    <div class="tool-notes">${highlight(tool.notes, term)}</div>
+    <div class="tool-meta">
+      <span class="tool-cost">${tool.cost}</span>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <button class="expand-btn" onclick="toggleNotes(this)">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          Notes
+        </button>
+        <a class="tool-link" href="${tool.url}" target="_blank" rel="noopener">
+          Visit →
+        </a>
+      </div>
+    </div>
+    <span class="kw-hidden">${tool.taskKeywords} ${tool.subjectKeywords}</span>
+  `;
+  return card;
+}
+
+function toggleNotes(btn) {
+  const card = btn.closest('.tool-card');
+  card.classList.toggle('expanded');
+  btn.textContent = card.classList.contains('expanded') ? '▲ Hide' : '';
+  if (!card.classList.contains('expanded')) {
+    btn.innerHTML = `<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Notes`;
+  }
+}
+
+function render() {
+  const container = document.getElementById('toolsContainer');
+  const emptyState = document.getElementById('emptyState');
+  const meta = document.getElementById('resultsMeta');
+  container.innerHTML = '';
+
+  const term = searchTerm.trim();
+  let totalShown = 0;
+
+  // When searching, show flat list; otherwise show sections
+  if (term) {
+    const matching = TOOLS.filter(t =>
+      toolMatchesSearch(t, term) &&
+      toolMatchesFacing(t, activeFilters.facing) &&
+      (!activeFilters.licensed || (t.licensed && t.licensed.includes("YES")))
+    );
+    totalShown = matching.length;
+
+    if (matching.length === 0) {
+      emptyState.classList.add('visible');
+      meta.innerHTML = '';
+      return;
+    }
+    emptyState.classList.remove('visible');
+
+    const grid = document.createElement('div');
+    grid.className = 'tools-grid';
+    matching.forEach(t => grid.appendChild(renderCard(t, term)));
+    container.appendChild(grid);
+
+  } else {
+    emptyState.classList.remove('visible');
+
+    Object.values(SECTIONS).forEach(section => {
+      const sectionTools = TOOLS.filter(t =>
+        section.tools.includes(t.name) &&
+        toolMatchesFacing(t, activeFilters.facing) &&
+        (!activeFilters.licensed || (t.licensed && t.licensed.includes("YES")))
+      );
+      if (sectionTools.length === 0) return;
+      totalShown += sectionTools.length;
+
+      const hdr = document.createElement('div');
+      hdr.className = 'section-header';
+      hdr.innerHTML = `<div class="section-line"></div><span class="section-title">${section.label}</span><div class="section-line"></div>`;
+      container.appendChild(hdr);
+
+      const grid = document.createElement('div');
+      grid.className = 'tools-grid';
+      sectionTools.forEach(t => grid.appendChild(renderCard(t, '')));
+      container.appendChild(grid);
+    });
+  }
+
+  if (totalShown === TOOLS.length && !term) {
+    meta.innerHTML = '';
+  } else {
+    meta.innerHTML = `Showing <strong>${totalShown}</strong> of ${TOOLS.length} tools`;
+  }
+
+  document.getElementById('stat-total').textContent = TOOLS.length;
+  updateClearBtn();
+}
+
+function updateClearBtn() {
+  const hasFilters = activeFilters.facing !== 'all' || activeFilters.licensed || searchTerm.trim();
+  document.getElementById('clearBtn').classList.toggle('visible', hasFilters);
+}
+
+// Search
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchTerm = e.target.value;
+  render();
+});
+
+// Facing filters
+document.querySelectorAll('[data-filter="facing"]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-filter="facing"]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilters.facing = btn.dataset.value;
+    render();
+  });
+});
+
+// Licensed filter
+document.querySelector('[data-filter="licensed"]').addEventListener('click', function() {
+  activeFilters.licensed = !activeFilters.licensed;
+  this.classList.toggle('active', activeFilters.licensed);
+  render();
+});
+
+// Clear
+document.getElementById('clearBtn').addEventListener('click', () => {
+  searchTerm = '';
+  activeFilters = { facing: 'all', licensed: false };
+  document.getElementById('searchInput').value = '';
+  document.querySelectorAll('[data-filter="facing"]').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-filter="facing"][data-value="all"]').classList.add('active');
+  document.querySelector('[data-filter="licensed"]').classList.remove('active');
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
